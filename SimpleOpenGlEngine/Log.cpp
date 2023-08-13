@@ -2,7 +2,7 @@
 #include <SDL_log.h>
 #include <SDL_error.h>
 
-void Log::info(const string& message);
+void Log::info(const string& message)
 {
 	SDL_Log(message.c_str());
 }
