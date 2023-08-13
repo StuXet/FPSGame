@@ -25,6 +25,7 @@ void Game::loop()
 		float dt = timer.computeDeltaTime() / 1000.0f;
 		processInput();
 		update();
+		update(dt);
 		render();
 		timer.delayTime();
 	}
