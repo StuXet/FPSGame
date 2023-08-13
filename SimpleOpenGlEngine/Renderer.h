@@ -22,7 +22,7 @@ public:
 
 	bool initialize(Window& window);
 
-	void beingDraw();
+	void beginDraw();
 	void draw();
 	void endDraw();
 

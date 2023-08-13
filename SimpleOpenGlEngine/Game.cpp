@@ -146,7 +146,7 @@ void Game::removeActor(Actor* actor)
 
 void Game::render()
 {
-	renderer.beingDraw();
+	renderer.beginDraw();
 
 	renderer.draw();
 

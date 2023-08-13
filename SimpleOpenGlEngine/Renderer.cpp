@@ -9,6 +9,10 @@ Renderer::Renderer() : SDLRenderer(nullptr)
 {
 }
 
+Renderer::~Renderer()
+{
+}
+
 bool Renderer::initialize(Window& window)
 {
 	SDLRenderer = SDL_CreateRenderer(window.getSDLWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -25,7 +29,7 @@ bool Renderer::initialize(Window& window)
 	return true;
 }
 
-void Renderer::beingDraw()
+void Renderer::beginDraw()
 {
 	SDL_SetRenderDrawColor(SDLRenderer, 120, 120, 255, 255);
 	SDL_RenderClear(SDLRenderer);
@@ -94,7 +98,7 @@ void Renderer::removeSprite(SpriteComponent* sprite)
 
 
 
-void Renderer::drawRect(Rectangle& rect)
+void Renderer::drawRect(const Rectangle& rect) const
 {
 	SDL_SetRenderDrawColor(SDLRenderer, 255, 255, 255, 255);
 	SDL_Rect SDLRect = rect.toSDLRect();
