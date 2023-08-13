@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include "Assets.h"
 #include "Timer.h"
 
 bool Game::initialize()
@@ -9,9 +10,6 @@ bool Game::initialize()
 
 	int windowWidth = window.getWidth();
 	int windowHeight = window.getHeigth();
-	topWall = { 0, 0, static_cast<float>(windowWidth), wallThickness };
-	bottomWall = { 0, windowHeight - wallThickness, static_cast<float>(windowWidth), wallThickness };
-	rightWall = { windowWidth - wallThickness, 0, wallThickness, static_cast<float>(windowHeight) };
 
 	return isWindowInit && isRendererInit; // return bool && bool && bool ...to detect error
 }
@@ -24,12 +22,34 @@ void Game::loop()
 	{
 		float dt = timer.computeDeltaTime() / 1000.0f;
 		processInput();
-		update();
+		//update();
 		update(dt);
 		render();
 		timer.delayTime();
 	}
 }
+
+void Game::load()
+{
+	Assets::loadTexture(renderer, "Res\Ship01.png", "ship01");
+	auto actor = new Actor();
+	auto sprite = new SpriteComponent(actor, Assets::getTexture("ship01"));
+	actor->setPosition(Vector2{ 100,100 });
+}
+
+void Game::unload()
+{
+	//Delete actors
+	//Because ~Actor calls RemoveActor, have to use a different style loop
+	while(!actors.empty())
+	{
+		delete actors.back();
+	}
+
+	//Resources
+	Assets::clear();
+}
+
 
 void Game::close()
 {
@@ -59,82 +79,76 @@ void Game::processInput()
 	{
 		isRunning = false;
 	}
-
-	//Paddle move
-	if (keyboardState[SDL_SCANCODE_W])
-	{
-		paddleDirection = -1;
-	}
-	if (keyboardState[SDL_SCANCODE_S])
-	{
-		paddleDirection = 1;
-	}
-}
-
-void Game::update()
-{
 }
 
 void Game::update(float dt)
 {
-	//Paddle move
-	paddlePos += paddleVelocity * dt * paddleDirection;
-	if (paddlePos.y < paddleHeight / 2 + wallThickness)
+	//Update actors
+	isUpdatingActors = true;
+	for (auto actor: actors)
 	{
-		paddlePos.y = paddleHeight / 2 + wallThickness;
+		actor->update(dt);
 	}
-	if (paddlePos.y > window.getHeigth() - paddleHeight / 2 - wallThickness)
-	{
-		paddlePos.y = window.getHeigth() - paddleHeight / 2 - wallThickness;
-	}
+	isUpdatingActors = false;
 
-	//Ball move
-	ballPos += ballVelocity * dt;
-	if (ballPos.y < ballSize / 2 + wallThickness)
+	//MoveActors to actors
+	for(auto pendingActor: pendingActors)
 	{
-		ballPos.y = ballSize / 2 + wallThickness;
-		ballVelocity.y *= -1;
+		actors.emplace_back(pendingActor);
 	}
-	else if (ballPos.y > window.getHeigth() - ballSize / 2 - wallThickness)
-	{
-		ballPos.y = window.getHeigth() - ballSize / 2 - wallThickness;
-		ballVelocity.y *= -1;
-	}
-	if (ballPos.x > window.getWidth() - ballSize/2-wallThickness)
-	{
-		ballPos.x = window.getWidth() - ballSize / 2 - wallThickness;
-		ballVelocity.x *= -1;
-	}
+	pendingActors.clear();
 
-	//Ball Paddle colision
-	Vector2 diff = ballPos - paddlePos;
-	if (fabsf(diff.y) <= paddleHeight /2 && fabsf(diff.x) <= paddleWidth /2 + ballSize /2 && ballVelocity.x < 0)
+	//Delete dead actors
+	vector<Actor*> deadActors;
+	for (auto actor : actors)
 	{
-		ballVelocity.x *= -1;
-		ballPos.x = paddlePos.x + paddleWidth / 2 + ballSize / 2;
+		if (actor->getState() == Actor::ActorState::Dead)
+		{
+			deadActors.emplace_back(actor);
+		}
 	}
-
-	//restart automatically
-	if (ballPos.x < 0)
+	for (auto deadActor : deadActors)
 	{
-		ballVelocity.x *= -1;
-		ballPos.x = window.getWidth() / 2.0f;
+		delete deadActor;
 	}
 }
+
+void Game::addActor(Actor* actor)
+{
+	if (isUpdatingActors)
+	{
+		pendingActors.emplace_back(actor);
+	}
+	else
+	{
+		actors.emplace_back(actor);
+	}
+}
+
+void Game::removeActor(Actor* actor)
+{
+	//Erase actor from the two vectors
+	auto iter = std::find(begin(pendingActors), end(pendingActors), actor);
+	if (iter != end(pendingActors))
+	{
+		//Swap to end of vector and pop off(avoid erase copies)
+		std::iter_swap(iter, end(pendingActors) - 1);
+		pendingActors.pop_back();
+	}
+	iter = std::find(begin(actors), end(actors), actor);
+	if (iter != end(actors))
+	{
+		std::iter_swap(iter, end(actors) - 1);
+		actors.pop_back();
+	}
+}
+
 
 void Game::render()
 {
 	renderer.beingDraw();
 
-	renderer.drawRect(topWall);
-	renderer.drawRect(bottomWall);
-	renderer.drawRect(rightWall);
-
-	Rectangle ballRect = { ballPos.x - ballSize / 2, ballPos.y - ballSize / 2, ballSize, ballSize };
-	renderer.drawRect(ballRect);
-
-	Rectangle paddleRect = { paddlePos.x - paddleWidth / 2, paddlePos.y - paddleHeight / 2, paddleWidth, paddleHeight };
-	renderer.drawRect(paddleRect);
+	renderer.draw();
 
 	renderer.endDraw();
 }

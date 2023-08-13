@@ -14,7 +14,7 @@ bool Window::initialize()
 		return false;
 	}
 
-	SDLWindow = SDL_CreateWindow("Wall Pong", 100, 100, width, height, 0); // 0 is flag we will use later
+	SDLWindow = SDL_CreateWindow("GG", 100, 100, width, height, 0); // 0 is flag we will use later
 	if (!SDLWindow)
 	{
 		Log::error(LogCategory::System, "Failed to create window");
@@ -27,4 +27,3 @@ void Window::close()
 {
 	SDL_DestroyWindow(SDLWindow);
 }
-

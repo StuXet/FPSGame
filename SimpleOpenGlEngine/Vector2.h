@@ -29,4 +29,6 @@ struct Vector2
 	{
 		return  Vector2(vec.x * scalar, vec.y * scalar);
 	}
+
+	static  const Vector2 zero;
 };
