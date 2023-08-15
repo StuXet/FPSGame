@@ -30,6 +30,9 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\TileTanSelected.png", "TileTanSelected");
 	Assets::loadTexture(renderer, "Res\\Tower.png", "Tower");
 
+	Assets::loadTexture(renderer, "Res\\TileRedSelected.png", "TileRedSelected");
+	Assets::loadTexture(renderer, "Res\\TileRed.png", "TileRed");
+
 	grid = new Grid();
 }
 

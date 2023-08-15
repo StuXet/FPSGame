@@ -5,9 +5,48 @@ Tile::Tile() :
 	Actor(),
 	sprite(nullptr),
 	tileState(TileState::Default),
-	isSelected(false)
+	isSelected(false),
+	f(0),
+	g(0),
+	h(0),
+	isBlocked(false),
+	isInOpenSet(false),
+	isInClosedSet(false),
+	parent(nullptr)
 {
 	sprite = new SpriteComponent(this, Assets::getTexture("TileBrown"));
+}
+
+Tile::Tile(const Tile& tileP) :
+	Actor(),
+	sprite(nullptr),
+	tileState(tileP.tileState),
+	isSelected(tileP.isSelected),
+	f(tileP.f),
+	g(tileP.g),
+	h(tileP.h),
+	isBlocked(tileP.isBlocked),
+	isInOpenSet(tileP.isInOpenSet),
+	isInClosedSet(tileP.isInClosedSet),
+	parent(tileP.parent)
+{
+	sprite = new SpriteComponent(this, Assets::getTexture("TileBrown"));
+}
+
+Tile Tile::operator=(const Tile& tileP)
+{
+	Tile t;
+	t.sprite = new SpriteComponent(this, Assets::getTexture("TileBrown"));
+	t.tileState = tileP.tileState;
+	t.isSelected = tileP.isSelected;
+	t.f = tileP.f;
+	t.g = tileP.g;
+	t.h = tileP.h;
+	t.isBlocked = tileP.isBlocked;
+	t.isInOpenSet = tileP.isInOpenSet;
+	t.isInClosedSet = tileP.isInClosedSet;
+	t.parent = tileP.parent;
+	return t;
 }
 
 void Tile::setTileState(TileState tileStateP)
@@ -38,6 +77,13 @@ void Tile::updateTexture()
 			text = "TileGreySelected";
 		else
 			text = "TileGrey";
+		break;
+	case TileState::Obstacle:
+		isBlocked = true;
+		if (isSelected)
+			text = "TileRedSelected";
+		else
+			text = "TileRed";
 		break;
 	case TileState::Default:
 	default:
