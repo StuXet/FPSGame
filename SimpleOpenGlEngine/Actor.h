@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
-#include  "Vector2.h"
-
-using  std::vector;
+#include "Vector2.h"
+using std::vector;
 
 class Game;
 class Component;
@@ -10,6 +9,7 @@ class Component;
 class Actor
 {
 public:
+
 	enum class ActorState
 	{
 		Active, Paused, Dead
@@ -24,11 +24,13 @@ public:
 	const ActorState getState() const { return state; }
 	const Vector2 getPosition() const { return position; }
 	const float getScale() const { return scale; }
-	const float getRotation() const { return  rotation; }
+	const float getRotation() const { return rotation; }
 
 	void setPosition(Vector2 positionP);
 	void setScale(float scaleP);
 	void setRotation(float rotationP);
+
+	Vector2 getForward() const;
 
 	void update(float dt);
 	void updateComponents(float dt);
@@ -41,7 +43,7 @@ private:
 	ActorState state;
 	Vector2 position;
 	float scale;
-	float rotation; //Rotation in radians
+	float rotation;	// Rotation in radians
 
 	vector<Component*> components;
 };

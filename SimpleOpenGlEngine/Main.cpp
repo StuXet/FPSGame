@@ -1,14 +1,13 @@
 #include "Game.h"
-
 int main(int argc, char** argv)
 {
-	bool isGameInit = Game::instace().initialize();
+	bool isGameInit = Game::instance().initialize();
 	if (isGameInit)
 	{
-		Game::instace().load();
-		Game::instace().loop();
-		Game::instace().unload();
+		Game::instance().load();
+		Game::instance().loop();
+		Game::instance().unload();
 	}
-	Game::instace().close();
+	Game::instance().close();
 	return 0;
 }
