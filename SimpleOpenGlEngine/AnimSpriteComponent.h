@@ -19,7 +19,6 @@ public:
 
 	void update(float dt) override;
 
-
 private:
 	vector<Texture*> animTextures;
 	float currentFrame;

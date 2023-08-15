@@ -17,12 +17,11 @@ enum class LogCategory
 	Video = SDL_LOG_CATEGORY_VIDEO
 };
 
-class Log
-{
+class Log {
 public:
 	Log() = delete;
 	Log(const Log&) = delete;
-	Log& operator = (const Log&) = delete;
+	Log& operator=(const Log&) = delete;
 
 	static void info(const string& message);
 	static void error(LogCategory category, const string& message);

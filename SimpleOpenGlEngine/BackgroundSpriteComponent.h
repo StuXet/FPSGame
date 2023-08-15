@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteComponent.h"
 #include <vector>
+
 using std::vector;
 
 class BackgroundSpriteComponent : public SpriteComponent

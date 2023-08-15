@@ -27,6 +27,7 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Stars.png", "Stars");
 	Assets::loadTexture(renderer, "Res\\Astroid.png", "Astroid");
 	Assets::loadTexture(renderer, "Res\\Ship.png", "Ship");
+	Assets::loadTexture(renderer, "Res\\Laser.png", "Laser");
 
 	// Single sprite
 	/*
@@ -144,6 +145,25 @@ void Game::render()
 	renderer.beginDraw();
 	renderer.draw();
 	renderer.endDraw();
+}
+
+vector<Astroid*>& Game::getAstroids()
+{
+	return astroids;
+}
+
+void Game::addAstroid(Astroid* astroid)
+{
+	astroids.emplace_back(astroid);
+}
+
+void Game::removeAstroid(Astroid* astroid)
+{
+	auto iter = std::find(begin(astroids), end(astroids), astroid);
+	if (iter != astroids.end())
+	{
+		astroids.erase(iter);
+	}
 }
 
 void Game::loop()

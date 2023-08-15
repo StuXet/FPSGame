@@ -22,6 +22,7 @@ public:
 
 	// Get a random vector given the min/max bounds
 	static Vector2 getVector(const Vector2& min, const Vector2& max);
+
 private:
 	static std::mt19937 sGenerator;
 };

@@ -44,6 +44,17 @@ namespace Maths
 		return (a < b ? a : b);
 	}
 
+	template <typename T>
+	T clamp(const T& value, const T& lower, const T& upper)
+	{
+		return min(upper, max(lower, value));
+	}
+
+	inline float abs(float value)
+	{
+		return fabs(value);
+	}
+
 	inline float cos(float angle)
 	{
 		return cosf(angle);
@@ -84,9 +95,9 @@ namespace Maths
 		return sqrtf(value);
 	}
 
-	inline float fmod(float number, float denom)
+	inline float fmod(float numer, float denom)
 	{
-		return std::fmod(number, denom);
+		return std::fmod(numer, denom);
 	}
 
 	inline int round(float num)

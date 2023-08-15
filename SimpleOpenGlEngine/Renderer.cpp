@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Maths.h"
 #include "SpriteComponent.h"
+
 #include <SDL_image.h>
 
 Renderer::Renderer() : SDLRenderer(nullptr)
@@ -40,6 +41,18 @@ void Renderer::draw()
 	drawSprites();
 }
 
+void Renderer::endDraw()
+{
+	SDL_RenderPresent(SDLRenderer);
+}
+
+void Renderer::drawRect(const Rectangle& rect) const
+{
+	SDL_SetRenderDrawColor(SDLRenderer, 255, 255, 255, 255);
+	SDL_Rect SDLRect = rect.toSDLRect();
+	SDL_RenderFillRect(SDLRenderer, &SDLRect);
+}
+
 void Renderer::drawSprites()
 {
 	for (auto sprite : sprites)
@@ -54,18 +67,17 @@ void Renderer::drawSprite(const Actor& actor, const Texture& tex, Rectangle srcR
 	Vector2 position = actor.getPosition();
 	float rotation = actor.getRotation();
 	float scale = actor.getScale();
-	//Scale the width/height by owner's scale
+	// Scale the width/height by owner's scale
 	dstRect.w = static_cast<int>(tex.getWidth() * scale);
 	dstRect.h = static_cast<int>(tex.getHeight() * scale);
-	//Center the rectangle around the position of the owner
+	// Center the rectangle around the position of the owner
 	dstRect.x = static_cast<int>(position.x - origin.x);
 	dstRect.y = static_cast<int>(position.y - origin.y);
 
 	SDL_Rect* srcSDL = nullptr;
 	if (srcRect != Rectangle::nullRect)
 	{
-		srcSDL = new SDL_Rect
-		{
+		srcSDL = new SDL_Rect{
 			Maths::round(srcRect.x),
 			Maths::round(srcRect.y),
 			Maths::round(srcRect.width),
@@ -73,14 +85,26 @@ void Renderer::drawSprite(const Actor& actor, const Texture& tex, Rectangle srcR
 		};
 	}
 
-	SDL_RenderCopyEx(SDLRenderer, tex.toSDLTexture(), srcSDL, &dstRect, -Maths::toDegrees(rotation), nullptr /*rotation point, center default*/, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(
+		SDLRenderer,
+		tex.toSDLTexture(),
+		srcSDL,
+		&dstRect,
+		-Maths::toDegrees(rotation),
+		nullptr,		// rotation point, center by default
+		SDL_FLIP_NONE);
 
 	delete srcSDL;
 }
 
+void Renderer::close()
+{
+	SDL_DestroyRenderer(SDLRenderer);
+}
+
 void Renderer::addSprite(SpriteComponent* sprite)
 {
-	//Insert the sprite at the right place in function of drawOrder
+	// Insert the sprite at the right place in function of drawOrder
 	int spriteDrawOrder = sprite->getDrawOrder();
 	auto iter = begin(sprites);
 	for (; iter != end(sprites); ++iter)
@@ -94,23 +118,4 @@ void Renderer::removeSprite(SpriteComponent* sprite)
 {
 	auto iter = std::find(begin(sprites), end(sprites), sprite);
 	sprites.erase(iter);
-}
-
-
-
-void Renderer::drawRect(const Rectangle& rect) const
-{
-	SDL_SetRenderDrawColor(SDLRenderer, 255, 255, 255, 255);
-	SDL_Rect SDLRect = rect.toSDLRect();
-	SDL_RenderFillRect(SDLRenderer, &SDLRect);
-}
-
-void Renderer::endDraw()
-{
-	SDL_RenderPresent(SDLRenderer);
-}
-
-void Renderer::close()
-{
-	SDL_DestroyRenderer(SDLRenderer);
 }
