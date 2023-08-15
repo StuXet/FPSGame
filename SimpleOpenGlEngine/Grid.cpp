@@ -1,7 +1,8 @@
 #include "Grid.h"
+#include "Enemy.h"
 #include <algorithm>
 
-Grid::Grid() : Actor(), selectedTile(nullptr)
+Grid::Grid() : Actor(), selectedTile(nullptr), nextEnemyTimer(0)
 {
 	// 7 rows, 16 columns
 	tiles.resize(NB_ROWS);
@@ -154,6 +155,17 @@ bool Grid::findPath(Tile& start, const Tile& goal)
 	} while (current != &goal);
 
 	return (current == &goal);
+}
+
+void Grid::updateActor(float dt)
+{
+	Actor::updateActor(dt);
+	nextEnemyTimer -= dt;
+	if (nextEnemyTimer <= 0.0f)
+	{
+		new Enemy();
+		nextEnemyTimer += TIME_BETWEEN_ENEMIES;
+	}
 }
 
 void Grid::selectTile(size_t row, size_t col)
