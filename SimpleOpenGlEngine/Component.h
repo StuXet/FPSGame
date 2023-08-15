@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL_stdinc.h>
 
 class Actor;
 
@@ -11,11 +12,12 @@ public:
 	Component(const Component&) = delete;
 	Component& operator=(const Component&) = delete;
 
-	int getUpdateOrder() const { return  updateOrder; }
+	int getUpdateOrder() const { return updateOrder; }
 
+	virtual void processInput(const Uint8* keyState);
 	virtual void update(float dt);
 
 protected:
 	Actor& owner;
-	int updateOrder; // order of the comonent in the actor's updateComponent method
+	int updateOrder;		// Order of the component in the actor's updateComponent method
 };

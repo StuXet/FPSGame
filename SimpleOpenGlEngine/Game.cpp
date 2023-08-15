@@ -6,6 +6,7 @@
 #include "Assets.h"
 #include "BackgroundSpriteComponent.h"
 #include "Astroid.h"
+#include "Ship.h"
 
 bool Game::initialize()
 {
@@ -25,6 +26,7 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Farback02.png", "Farback02");
 	Assets::loadTexture(renderer, "Res\\Stars.png", "Stars");
 	Assets::loadTexture(renderer, "Res\\Astroid.png", "Astroid");
+	Assets::loadTexture(renderer, "Res\\Ship.png", "Ship");
 
 	// Single sprite
 	/*
@@ -34,7 +36,8 @@ void Game::load()
 	*/
 
 	// Animated sprite
-	vector<Texture*> animTextures{
+	/*
+	vector<Texture*> animTextures {
 		&Assets::getTexture("Ship01"),
 		&Assets::getTexture("Ship02"),
 		&Assets::getTexture("Ship03"),
@@ -42,6 +45,11 @@ void Game::load()
 	};
 	Actor* ship = new Actor();
 	AnimSpriteComponent* animatedSprite = new AnimSpriteComponent(ship, animTextures);
+	ship->setPosition(Vector2{ 100, 300 });
+	*/
+
+	// Controlled ship
+	Ship* ship = new Ship();
 	ship->setPosition(Vector2{ 100, 300 });
 
 	// Background
@@ -68,7 +76,6 @@ void Game::load()
 	{
 		new Astroid();
 	}
-
 }
 
 void Game::processInput()
@@ -91,6 +98,13 @@ void Game::processInput()
 	{
 		isRunning = false;
 	}
+	// Actor input
+	isUpdatingActors = true;
+	for (auto actor : actors)
+	{
+		actor->processInput(keyboardState);
+	}
+	isUpdatingActors = false;
 }
 
 void Game::update(float dt)
