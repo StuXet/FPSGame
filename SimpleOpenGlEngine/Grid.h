@@ -14,6 +14,7 @@ public:
 	Tile& getEndTile();
 	bool findPath(Tile& start, const Tile& goal);
 	void updateActor(float dt) override;
+	void buildTower();
 
 private:
 	void selectTile(size_t row, size_t col);

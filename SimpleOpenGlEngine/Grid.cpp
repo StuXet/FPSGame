@@ -1,6 +1,7 @@
 #include "Grid.h"
 #include "Enemy.h"
 #include <algorithm>
+#include "Tower.h"
 
 Grid::Grid() : Actor(), selectedTile(nullptr), nextEnemyTimer(0)
 {
@@ -165,6 +166,26 @@ void Grid::updateActor(float dt)
 	{
 		new Enemy();
 		nextEnemyTimer += TIME_BETWEEN_ENEMIES;
+	}
+}
+
+void Grid::buildTower()
+{
+	if (selectedTile && !selectedTile->isBlocked)
+	{
+		selectedTile->isBlocked = true;
+		if (findPath(getEndTile(), getStartTile()))
+		{
+			Tower* t = new Tower();
+			t->setPosition(selectedTile->getPosition());
+		}
+		else
+		{
+			// This tower would block the path, so don't allow build
+			selectedTile->isBlocked = false;
+			findPath(getEndTile(), getStartTile());
+		}
+		updatePathTiles(getStartTile());
 	}
 }
 
