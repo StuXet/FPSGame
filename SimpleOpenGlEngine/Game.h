@@ -59,3 +59,4 @@ private:
 	// Game specific
 	vector<Astroid*> astroids;
 };
+

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include "Log.h"
+#include "RendererOGL.h"
 
 std::map<std::string, Texture> Assets::textures;
 std::map<std::string, Shader> Assets::shaders;
@@ -60,6 +61,10 @@ Texture Assets::loadTextureFromFile(IRenderer& renderer, const string& filename)
     if (renderer.type() == IRenderer::Type::SDL)
     {
         texture.loadSDL(dynamic_cast<RendererSDL&>(renderer), filename);
+    }
+    else if (renderer.type() == IRenderer::Type::OGL)
+    {
+        texture.loadOGL(dynamic_cast<RendererOGL&>(renderer), filename);
     }
     return texture;
 }
