@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "Vector2.h"
 #include "RendererOGL.h"
+#include "Camera.h"
 
 using std::vector;
 
@@ -23,7 +24,7 @@ public:
 	Game& operator=(Game&&) = delete;
 
 private:
-	Game() : isRunning(true), isUpdatingActors(false) {}
+	Game() : isRunning(true), isUpdatingActors(false), camera(nullptr) {}
 
 public:
 	bool initialize();
@@ -48,4 +49,6 @@ private:
 	bool isUpdatingActors;
 	vector<Actor*> actors;
 	vector<Actor*> pendingActors;
+	Camera* camera;
 };
+
