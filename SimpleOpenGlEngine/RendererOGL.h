@@ -2,6 +2,7 @@
 #include "IRenderer.h"
 #include "VertexArray.h"
 #include "Vector2.h"
+#include "Shader.h"
 
 #include <vector>
 
@@ -30,6 +31,7 @@ private:
 
 	Window* window;
 	VertexArray* vertexArray;
+	Shader* shader;
 	SDL_GLContext context;
 	std::vector<class SpriteComponent*> sprites;
 };
