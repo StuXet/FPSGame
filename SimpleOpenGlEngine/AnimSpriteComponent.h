@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
 #include "SpriteComponent.h"
-
 using std::vector;
 
-class AnimSpriteComponent : public SpriteComponent
+class AnimSpriteComponent :	public SpriteComponent
 {
 public:
 	AnimSpriteComponent(Actor* ownerP, const vector<Texture*>& textureP, int drawOrderP = 100);
@@ -19,8 +18,10 @@ public:
 
 	void update(float dt) override;
 
+
 private:
 	vector<Texture*> animTextures;
 	float currentFrame;
 	float animFPS;
 };
+

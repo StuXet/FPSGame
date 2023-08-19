@@ -2,7 +2,7 @@
 #include "Log.h"
 #include <SDL_image.h>
 
-Texture::Texture() : filename(""), width(0), height(0), SDLTexture(nullptr)
+Texture::Texture(): filename(""), width(0), height(0), SDLTexture(nullptr)
 {
 }
 
@@ -18,7 +18,7 @@ void Texture::unload()
 	}
 }
 
-bool Texture::load(Renderer& renderer, const string& filenameP)
+bool Texture::loadSDL(RendererSDL& renderer, const string& filenameP)
 {
 	filename = filenameP;
 	// Load from file
@@ -36,7 +36,7 @@ bool Texture::load(Renderer& renderer, const string& filenameP)
 	SDL_FreeSurface(surf);
 	if (!SDLTexture)
 	{
-		Log::error(LogCategory::Render, "Failed to convert surface to texture for " + filename);
+		Log::error(LogCategory::Render, "Failed to convert surface to texture for "+ filename);
 		return false;
 	}
 	Log::info("Loaded texture " + filename);

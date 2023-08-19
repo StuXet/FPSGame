@@ -3,9 +3,11 @@
 #include "Actor.h"
 #include "SpriteComponent.h"
 #include "Window.h"
-#include "Renderer.h"
+#include "IRenderer.h"
 #include "Vector2.h"
-#include "Grid.h"
+#include "Astroid.h"
+#include "RendererSDL.h"
+
 using std::vector;
 
 class Game
@@ -23,7 +25,7 @@ public:
 	Game& operator=(Game&&) = delete;
 
 private:
-	Game() : isRunning(true), isUpdatingActors(false), grid(nullptr), nextEnemyTimer(0.0f) {}
+	Game() : isRunning(true), isUpdatingActors(false) {}
 
 public:
 	bool initialize();
@@ -35,12 +37,12 @@ public:
 	void addActor(Actor* actor);
 	void removeActor(Actor* actor);
 
-	Renderer& getRenderer() { return renderer; }
+	RendererSDL& getRenderer() { return renderer; }
 
 	// Game specific
-	class Grid& getGrid() { return *grid; }
-	std::vector<class Enemy*>& getEnemies() { return enemies; }
-	Enemy* getNearestEnemy(const Vector2& position);
+	vector<Astroid*>& getAstroids();
+	void addAstroid(Astroid* astroid);
+	void removeAstroid(Astroid* astroid);
 
 private:
 	void processInput();
@@ -49,14 +51,13 @@ private:
 
 	bool isRunning;
 	Window window;
-	Renderer renderer;
+	RendererSDL renderer;
 
 	bool isUpdatingActors;
 	vector<Actor*> actors;
 	vector<Actor*> pendingActors;
 
 	// Game specific
-	Grid* grid;
-	std::vector<class Enemy*> enemies;
-	float nextEnemyTimer;
+	vector<Astroid*> astroids;
 };
+

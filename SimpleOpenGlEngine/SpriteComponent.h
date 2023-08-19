@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Texture.h"
 
-class SpriteComponent : public Component
+class SpriteComponent :	public Component
 {
 public:
 	SpriteComponent(Actor* ownerP, Texture& textureP, int drawOrderP = 100); // Lower draw order: further back
@@ -12,7 +12,7 @@ public:
 	SpriteComponent& operator=(const SpriteComponent&) = delete;
 
 	virtual void setTexture(const Texture& textureP);
-	virtual void draw(Renderer& renderer);
+	virtual void draw(IRenderer& renderer);
 
 	int getDrawOrder() const { return drawOrder; }
 	int getTexWidth() const { return texWidth; }
@@ -24,3 +24,4 @@ protected:
 	int texWidth;
 	int texHeight;
 };
+

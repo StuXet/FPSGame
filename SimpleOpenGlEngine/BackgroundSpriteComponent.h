@@ -1,8 +1,8 @@
 #pragma once
 #include "SpriteComponent.h"
+#include "Vector2.h"
 #include <vector>
-
-using std::vector;
+using std::vector; 
 
 class BackgroundSpriteComponent : public SpriteComponent
 {
@@ -19,7 +19,7 @@ public:
 	void setScrollSpeed(float scrollSpeedP);
 
 	void update(float dt) override;
-	void draw(Renderer& renderer) override;
+	void draw(IRenderer& renderer) override;
 
 private:
 	// Struct to encapsulate each bg image and its offset
@@ -33,3 +33,4 @@ private:
 	Vector2 screenSize;
 	float scrollSpeed;
 };
+

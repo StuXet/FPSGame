@@ -5,7 +5,8 @@
 #include "Timer.h"
 #include "Assets.h"
 #include "BackgroundSpriteComponent.h"
-#include "Enemy.h"
+#include "Astroid.h"
+#include "Ship.h"
 
 bool Game::initialize()
 {
@@ -17,47 +18,65 @@ bool Game::initialize()
 void Game::load()
 {
 	// Load textures
-	Assets::loadTexture(renderer, "Res\\Airplane.png", "Airplane");
-	Assets::loadTexture(renderer, "Res\\Base.png", "Base");
-	Assets::loadTexture(renderer, "Res\\Missile.png", "Missile");
-	Assets::loadTexture(renderer, "Res\\Projectile.png", "Projectile");
-	Assets::loadTexture(renderer, "Res\\TileBrown.png", "TileBrown");
-	Assets::loadTexture(renderer, "Res\\TileBrownSelected.png", "TileBrownSelected");
-	Assets::loadTexture(renderer, "Res\\TileGreen.png", "TileGreen");
-	Assets::loadTexture(renderer, "Res\\TileGreenSelected.png", "TileGreenSelected");
-	Assets::loadTexture(renderer, "Res\\TileGrey.png", "TileGrey");
-	Assets::loadTexture(renderer, "Res\\TileGreySelected.png", "TileGreySelected");
-	Assets::loadTexture(renderer, "Res\\TileTan.png", "TileTan");
-	Assets::loadTexture(renderer, "Res\\TileTanSelected.png", "TileTanSelected");
-	Assets::loadTexture(renderer, "Res\\Tower.png", "Tower");
+	Assets::loadTexture(renderer, "Res\\Ship01.png", "Ship01");
+	Assets::loadTexture(renderer, "Res\\Ship02.png", "Ship02");
+	Assets::loadTexture(renderer, "Res\\Ship03.png", "Ship03");
+	Assets::loadTexture(renderer, "Res\\Ship04.png", "Ship04");
+	Assets::loadTexture(renderer, "Res\\Farback01.png", "Farback01");
+	Assets::loadTexture(renderer, "Res\\Farback02.png", "Farback02");
+	Assets::loadTexture(renderer, "Res\\Stars.png", "Stars");
+	Assets::loadTexture(renderer, "Res\\Astroid.png", "Astroid");
+	Assets::loadTexture(renderer, "Res\\Ship.png", "Ship");
+	Assets::loadTexture(renderer, "Res\\Laser.png", "Laser");
 
-	Assets::loadTexture(renderer, "Res\\TileRedSelected.png", "TileRedSelected");
-	Assets::loadTexture(renderer, "Res\\TileRed.png", "TileRed");
+	// Single sprite
+	/*
+	Actor* actor = new Actor();
+	SpriteComponent* sprite = new SpriteComponent(actor, Assets::getTexture("Ship01"));
+	actor->setPosition(Vector2{ 100, 100 });
+	*/
 
-	grid = new Grid();
-}
+	// Animated sprite
+	/*
+	vector<Texture*> animTextures {
+		&Assets::getTexture("Ship01"),
+		&Assets::getTexture("Ship02"),
+		&Assets::getTexture("Ship03"),
+		&Assets::getTexture("Ship04"),
+	};
+	Actor* ship = new Actor();
+	AnimSpriteComponent* animatedSprite = new AnimSpriteComponent(ship, animTextures);
+	ship->setPosition(Vector2{ 100, 300 });
+	*/
 
-Enemy* Game::getNearestEnemy(const Vector2& position)
-{
-	Enemy* best = nullptr;
+	// Controlled ship
+	Ship* ship = new Ship();
+	ship->setPosition(Vector2{ 100, 300 });
 
-	if (enemies.size() > 0)
+	// Background
+	// Create the "far back" background
+	vector<Texture*> bgTexsFar {
+		&Assets::getTexture("Farback01"),
+		&Assets::getTexture("Farback02")
+	};
+	Actor* bgFar = new Actor();
+	BackgroundSpriteComponent* bgSpritesFar = new BackgroundSpriteComponent(bgFar, bgTexsFar);
+	bgSpritesFar->setScrollSpeed(-100.0f);
+
+	// Create the closer background
+	Actor* bgClose = new Actor();
+	std::vector<Texture*> bgTexsClose {
+		&Assets::getTexture("Stars"),
+		&Assets::getTexture("Stars")
+	};
+	BackgroundSpriteComponent* bgSpritesClose = new BackgroundSpriteComponent(bgClose, bgTexsClose, 50);
+	bgSpritesClose->setScrollSpeed(-200.0f);
+	
+	const int astroidNumber = 20;
+	for (int i = 0; i < astroidNumber; ++i)
 	{
-		best = enemies[0];
-		// Save the distance squared of first enemy, and test if others are closer
-		float bestDistSq = (position - enemies[0]->getPosition()).lengthSq();
-		for (size_t i = 1; i < enemies.size(); ++i)
-		{
-			float newDistSq = (position - enemies[i]->getPosition()).lengthSq();
-			if (newDistSq < bestDistSq)
-			{
-				bestDistSq = newDistSq;
-				best = enemies[i];
-			}
-		}
+		Astroid* a = new Astroid();
 	}
-
-	return best;
 }
 
 void Game::processInput()
@@ -80,12 +99,6 @@ void Game::processInput()
 	{
 		isRunning = false;
 	}
-
-	if (keyboardState[SDL_SCANCODE_B])
-	{
-		grid->buildTower();
-	}
-
 	// Actor input
 	isUpdatingActors = true;
 	for (auto actor : actors)
@@ -93,28 +106,20 @@ void Game::processInput()
 		actor->processInput(keyboardState);
 	}
 	isUpdatingActors = false;
-
-	// Process mouse
-	int x, y;
-	Uint32 buttons = SDL_GetMouseState(&x, &y);
-	if (SDL_BUTTON(buttons) & SDL_BUTTON_LEFT)
-	{
-		grid->processClick(x, y);
-	}
 }
 
 void Game::update(float dt)
 {
 	// Update actors 
 	isUpdatingActors = true;
-	for (auto actor : actors)
+	for(auto actor: actors) 
 	{
 		actor->update(dt);
 	}
 	isUpdatingActors = false;
 
 	// Move pending actors to actors
-	for (auto pendingActor : pendingActors)
+	for (auto pendingActor: pendingActors)
 	{
 		actors.emplace_back(pendingActor);
 	}
@@ -140,6 +145,25 @@ void Game::render()
 	renderer.beginDraw();
 	renderer.draw();
 	renderer.endDraw();
+}
+
+vector<Astroid*>& Game::getAstroids()
+{
+	return astroids;
+}
+
+void Game::addAstroid(Astroid* astroid)
+{
+	astroids.emplace_back(astroid);
+}
+
+void Game::removeAstroid(Astroid* astroid)
+{
+	auto iter = std::find(begin(astroids), end(astroids), astroid);
+	if (iter != astroids.end())
+	{
+		astroids.erase(iter);
+	}
 }
 
 void Game::loop()

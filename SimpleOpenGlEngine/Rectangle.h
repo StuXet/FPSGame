@@ -10,8 +10,7 @@ struct Rectangle
 
 	SDL_Rect toSDLRect() const
 	{
-		return SDL_Rect
-		{
+		return SDL_Rect{
 			static_cast<int>(x),
 			static_cast<int>(y),
 			static_cast<int>(width),
@@ -21,7 +20,10 @@ struct Rectangle
 
 	friend bool operator==(const Rectangle& left, const Rectangle& right)
 	{
-		return left.x == right.x && left.y == right.y && left.width == right.width && left.height == right.height;
+		return left.x == right.x
+			&& left.y == right.y
+			&& left.width == right.width
+			&& left.height == right.height;
 	}
 
 	friend bool operator!=(const Rectangle& left, const Rectangle& right)

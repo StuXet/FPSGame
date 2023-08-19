@@ -2,7 +2,6 @@
 #include <vector>
 #include "Vector2.h"
 #include <SDL_stdinc.h>
-
 using std::vector;
 
 class Game;
@@ -52,3 +51,4 @@ private:
 
 	vector<Component*> components;
 };
+

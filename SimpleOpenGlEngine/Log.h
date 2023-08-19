@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
-#include <SDL_log.h>
-
 using std::string;
+#include <SDL_log.h>
 
 enum class LogCategory
 {
