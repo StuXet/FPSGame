@@ -53,5 +53,10 @@ private:
 	vector<Actor*> actors;
 	vector<Actor*> pendingActors;
 	Camera* camera;
+
+	// Game specific
+	SoundEvent musicEvent;
+	SoundEvent reverbSnap;
+	void audioInput(int key);
 };
 
