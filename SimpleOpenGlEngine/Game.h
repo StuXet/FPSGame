@@ -4,7 +4,6 @@
 #include "SpriteComponent.h"
 #include "Window.h"
 #include "Vector2.h"
-#include "Astroid.h"
 #include "RendererOGL.h"
 
 using std::vector;
@@ -35,13 +34,7 @@ public:
 
 	void addActor(Actor* actor);
 	void removeActor(Actor* actor);
-
 	RendererOGL& getRenderer() { return renderer; }
-
-	// Game specific
-	vector<Astroid*>& getAstroids();
-	void addAstroid(Astroid* astroid);
-	void removeAstroid(Astroid* astroid);
 
 private:
 	void processInput();
@@ -55,8 +48,4 @@ private:
 	bool isUpdatingActors;
 	vector<Actor*> actors;
 	vector<Actor*> pendingActors;
-
-	// Game specific
-	vector<Astroid*> astroids;
 };
-
