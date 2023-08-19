@@ -11,7 +11,8 @@ bool Game::initialize()
 {
 	bool isWindowInit = window.initialize();
 	bool isRendererInit = renderer.initialize(window);
-	return isWindowInit && isRendererInit; // Return bool && bool && bool ...to detect error
+	bool isAudioInit = audioSystem.initialize();
+	return isWindowInit && isRendererInit && isAudioInit; // Return bool && bool && bool ...to detect error
 }
 
 void Game::load()
@@ -133,6 +134,9 @@ void Game::processInput()
 
 void Game::update(float dt)
 {
+	// Update audio
+	audioSystem.update(dt);
+
 	// Update actors 
 	isUpdatingActors = true;
 	for(auto actor: actors) 

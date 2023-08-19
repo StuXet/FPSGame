@@ -4,8 +4,9 @@
 #include "SpriteComponent.h"
 #include "Window.h"
 #include "Vector2.h"
-#include "RendererOGL.h"
 #include "Camera.h"
+#include "RendererOGL.h"
+#include "AudioSystem.h"
 
 using std::vector;
 
@@ -36,6 +37,7 @@ public:
 	void addActor(Actor* actor);
 	void removeActor(Actor* actor);
 	RendererOGL& getRenderer() { return renderer; }
+	AudioSystem& getAudioSystem() { return audioSystem; }
 
 private:
 	void processInput();
@@ -45,6 +47,7 @@ private:
 	bool isRunning;
 	Window window;
 	RendererOGL renderer;
+	AudioSystem audioSystem;
 
 	bool isUpdatingActors;
 	vector<Actor*> actors;

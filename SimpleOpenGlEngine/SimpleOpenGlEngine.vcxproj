@@ -135,6 +135,8 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AnimSpriteComponent.cpp" />
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="AudioComponent.cpp" />
+    <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BackgroundSpriteComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CircleCollisionComponent.cpp" />
@@ -156,6 +158,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RendererOGL.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SoundEvent.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -169,6 +172,8 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AnimSpriteComponent.h" />
     <ClInclude Include="Assets.h" />
+    <ClInclude Include="AudioComponent.h" />
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BackgroundSpriteComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CircleCollisionComponent.h" />
@@ -190,6 +195,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RendererOGL.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SoundEvent.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Texture.h" />
