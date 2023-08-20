@@ -13,5 +13,8 @@ public:
 
 private:
 	float laserCooldown;
+	Vector2 velocityDir;
+	Vector2 rotationDir;
+	float speed;
 };
 

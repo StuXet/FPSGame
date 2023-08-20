@@ -52,6 +52,12 @@ void Actor::rotate(const Vector3& axis, float angle)
 	setRotation(newRotation);
 }
 
+void Actor::setAngle(const Vector3& axis, float angle)
+{
+	Quaternion newRotation(axis, angle);
+	setRotation(newRotation);
+}
+
 void Actor::setState(ActorState stateP)
 {
 	state = stateP;
