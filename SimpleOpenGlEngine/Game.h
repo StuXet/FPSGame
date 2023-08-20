@@ -7,6 +7,8 @@
 #include "Camera.h"
 #include "RendererOGL.h"
 #include "AudioSystem.h"
+#include "InputSystem.h"
+#include "Ship.h"
 
 using std::vector;
 
@@ -39,6 +41,11 @@ public:
 	RendererOGL& getRenderer() { return renderer; }
 	AudioSystem& getAudioSystem() { return audioSystem; }
 
+	// Game specific
+	vector<class Astroid*>& getAstroids();
+	void addAstroid(class Astroid* astroid);
+	void removeAstroid(class Astroid* astroid);
+
 private:
 	void processInput();
 	void update(float dt);
@@ -48,6 +55,7 @@ private:
 	Window window;
 	RendererOGL renderer;
 	AudioSystem audioSystem;
+	InputSystem inputSystem;
 
 	bool isUpdatingActors;
 	vector<Actor*> actors;
@@ -55,8 +63,7 @@ private:
 	Camera* camera;
 
 	// Game specific
-	SoundEvent musicEvent;
-	SoundEvent reverbSnap;
-	void audioInput(int key);
+	vector<Astroid*> astroids;
+	Ship* ship;
 };
 
