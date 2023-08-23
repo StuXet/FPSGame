@@ -25,7 +25,7 @@ public:
 	Game& operator=(Game&&) = delete;
 
 private:
-	Game() : isRunning(true), isUpdatingActors(false), fps(nullptr), crosshair(nullptr) {}
+	Game() : isRunning(true), isUpdatingActors(false), fps(nullptr), crosshair(nullptr), follow(nullptr) {}
 
 public:
 	bool initialize();
@@ -39,10 +39,6 @@ public:
 	RendererOGL& getRenderer() { return renderer; }
 	AudioSystem& getAudioSystem() { return audioSystem; }
 
-	// Game specific
-	vector<class Astroid*>& getAstroids();
-	void addAstroid(class Astroid* astroid);
-	void removeAstroid(class Astroid* astroid);
 
 private:
 	void processInput();
@@ -60,8 +56,11 @@ private:
 	vector<Actor*> pendingActors;
 
 	// Game specific
+	void changeCamera(int mode);
+
 	SoundEvent musicEvent;
 	class FPSActor* fps;
 	class SpriteComponent* crosshair;
+	class FollowActor* follow;
 };
 
