@@ -13,11 +13,6 @@ MeshComponent::~MeshComponent()
 	owner.getGame().getRenderer().removeMesh(this);
 }
 
-void MeshComponent::setVisible(bool isVisibleP)
-{
-	isVisible = isVisibleP;
-}
-
 void MeshComponent::draw(Shader& shader)
 {
 	if (mesh)

@@ -7,9 +7,14 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "AudioComponent.h"
+<<<<<<< HEAD
 #include "FPSActor.h"
 #include "FollowActor.h"
 #include "OrbitActor.h"
+=======
+#include "Astroid.h"
+#include "Ship.h"
+>>>>>>> parent of 6e6185c (FPS Camera)
 
 bool Game::initialize()
 {
@@ -23,22 +28,18 @@ bool Game::initialize()
 
 void Game::load()
 {
-	inputSystem.setMouseRelativeMode(true);
-
 	Assets::loadShader("Res\\Shaders\\Sprite.vert", "Res\\Shaders\\Sprite.frag", "", "", "", "Sprite");
 	Assets::loadShader("Res\\Shaders\\Phong.vert", "Res\\Shaders\\Phong.frag", "", "", "", "Phong");
-	Assets::loadShader("Res\\Shaders\\BasicMesh.vert", "Res\\Shaders\\BasicMesh.frag", "", "", "", "BasicMesh");
 
-	Assets::loadTexture(renderer, "Res\\Textures\\Default.png", "Default");
-	Assets::loadTexture(renderer, "Res\\Textures\\Cube.png", "Cube");
-	Assets::loadTexture(renderer, "Res\\Textures\\HealthBar.png", "HealthBar");
-	Assets::loadTexture(renderer, "Res\\Textures\\Plane.png", "Plane");
-	Assets::loadTexture(renderer, "Res\\Textures\\Radar.png", "Radar");
-	Assets::loadTexture(renderer, "Res\\Textures\\Sphere.png", "Sphere");
-	Assets::loadTexture(renderer, "Res\\Textures\\Crosshair.png", "Crosshair");
-	Assets::loadTexture(renderer, "Res\\Textures\\RacingCar.png", "RacingCar");
-	Assets::loadTexture(renderer, "Res\\Textures\\Rifle.png", "Rifle");
+	Assets::loadTexture(renderer, "Res\\Textures\\Ship.png", "Ship");
+	Assets::loadTexture(renderer, "Res\\Textures\\ShipWithThrust.png", "ShipWithThrust");
+	Assets::loadTexture(renderer, "Res\\Textures\\Laser.png", "Laser");
+	Assets::loadTexture(renderer, "Res\\Textures\\Astroid.png", "Astroid");
+	
+	ship = new Ship();
+	ship->setPosition(Vector3(-350.0f, 0.0f, 0.0f));
 
+<<<<<<< HEAD
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
 	Assets::loadMesh("Res\\Meshes\\Sphere.gpmesh", "Mesh_Sphere");
@@ -66,13 +67,15 @@ void Game::load()
 	const float start = -1250.0f;
 	const float size = 250.0f;
 	for (int i = 0; i < 10; i++)
+=======
+	// Create asteroids
+	const int numAsteroids = 20;
+	for (int i = 0; i < numAsteroids; i++)
+>>>>>>> parent of 6e6185c (FPS Camera)
 	{
-		for (int j = 0; j < 10; j++)
-		{
-			Plane* p = new Plane();
-			p->setPosition(Vector3(start + i * size, start + j * size, -100.0f));
-		}
+		new Astroid();
 	}
+<<<<<<< HEAD
 
 	// Left/right walls
 	q = Quaternion(Vector3::unitX, Maths::piOver2);
@@ -123,6 +126,8 @@ void Game::load()
 	musicEvent = audioSystem.playEvent("event:/Music");
 
 	changeCamera(1);
+=======
+>>>>>>> parent of 6e6185c (FPS Camera)
 }
 
 void Game::processInput()
@@ -138,6 +143,13 @@ void Game::processInput()
 
 	inputSystem.update();
 	const InputState& input = inputSystem.getInputState();
+
+	// Click to teleport ship
+	if (input.mouse.getButtonState(1) == ButtonState::Pressed)
+	{
+		Vector2 mousePosition = input.mouse.getPosition();
+		ship->setPosition(Vector3(mousePosition.x - WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 -  mousePosition.y, 0.0));
+	}
 
 	// Escape: quit game
 	if (input.keyboard.getKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::Released)
@@ -304,5 +316,24 @@ void Game::removeActor(Actor* actor)
 	{
 		std::iter_swap(iter, end(actors) - 1);
 		actors.pop_back();
+	}
+}
+
+vector<Astroid*>& Game::getAstroids()
+{
+	return astroids;
+}
+
+void Game::addAstroid(Astroid* astroid)
+{
+	astroids.emplace_back(astroid);
+}
+
+void Game::removeAstroid(Astroid* astroid)
+{
+	auto iter = std::find(begin(astroids), end(astroids), astroid);
+	if (iter != astroids.end())
+	{
+		astroids.erase(iter);
 	}
 }
