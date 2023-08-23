@@ -4,11 +4,9 @@
 #include "SpriteComponent.h"
 #include "Window.h"
 #include "Vector2.h"
-#include "Camera.h"
 #include "RendererOGL.h"
 #include "AudioSystem.h"
 #include "InputSystem.h"
-#include "Ship.h"
 
 using std::vector;
 
@@ -27,7 +25,7 @@ public:
 	Game& operator=(Game&&) = delete;
 
 private:
-	Game() : isRunning(true), isUpdatingActors(false), camera(nullptr) {}
+	Game() : isRunning(true), isUpdatingActors(false), fps(nullptr), crosshair(nullptr) {}
 
 public:
 	bool initialize();
@@ -60,10 +58,10 @@ private:
 	bool isUpdatingActors;
 	vector<Actor*> actors;
 	vector<Actor*> pendingActors;
-	Camera* camera;
 
 	// Game specific
-	vector<Astroid*> astroids;
-	Ship* ship;
+	SoundEvent musicEvent;
+	class FPSActor* fps;
+	class SpriteComponent* crosshair;
 };
 

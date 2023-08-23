@@ -7,8 +7,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "AudioComponent.h"
-#include "Astroid.h"
-#include "Ship.h"
+#include "FPSActor.h"
 
 bool Game::initialize()
 {
@@ -22,23 +21,102 @@ bool Game::initialize()
 
 void Game::load()
 {
+	inputSystem.setMouseRelativeMode(true);
+
 	Assets::loadShader("Res\\Shaders\\Sprite.vert", "Res\\Shaders\\Sprite.frag", "", "", "", "Sprite");
 	Assets::loadShader("Res\\Shaders\\Phong.vert", "Res\\Shaders\\Phong.frag", "", "", "", "Phong");
+	Assets::loadShader("Res\\Shaders\\BasicMesh.vert", "Res\\Shaders\\BasicMesh.frag", "", "", "", "BasicMesh");
 
-	Assets::loadTexture(renderer, "Res\\Textures\\Ship.png", "Ship");
-	Assets::loadTexture(renderer, "Res\\Textures\\ShipWithThrust.png", "ShipWithThrust");
-	Assets::loadTexture(renderer, "Res\\Textures\\Laser.png", "Laser");
-	Assets::loadTexture(renderer, "Res\\Textures\\Astroid.png", "Astroid");
-	
-	ship = new Ship();
-	ship->setPosition(Vector3(-350.0f, 0.0f, 0.0f));
+	Assets::loadTexture(renderer, "Res\\Textures\\Default.png", "Default");
+	Assets::loadTexture(renderer, "Res\\Textures\\Cube.png", "Cube");
+	Assets::loadTexture(renderer, "Res\\Textures\\HealthBar.png", "HealthBar");
+	Assets::loadTexture(renderer, "Res\\Textures\\Plane.png", "Plane");
+	Assets::loadTexture(renderer, "Res\\Textures\\Radar.png", "Radar");
+	Assets::loadTexture(renderer, "Res\\Textures\\Sphere.png", "Sphere");
+	Assets::loadTexture(renderer, "Res\\Textures\\Crosshair.png", "Crosshair");
+	Assets::loadTexture(renderer, "Res\\Textures\\RacingCar.png", "RacingCar");
+	Assets::loadTexture(renderer, "Res\\Textures\\Rifle.png", "Rifle");
 
-	// Create asteroids
-	const int numAsteroids = 20;
-	for (int i = 0; i < numAsteroids; i++)
+	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
+	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
+	Assets::loadMesh("Res\\Meshes\\Sphere.gpmesh", "Mesh_Sphere");
+	Assets::loadMesh("Res\\Meshes\\Rifle.gpmesh", "Mesh_Rifle");
+	Assets::loadMesh("Res\\Meshes\\RacingCar.gpmesh", "Mesh_RacingCar");
+
+	fps = new FPSActor();
+
+	Cube* a = new Cube();
+	a->setPosition(Vector3(200.0f, 105.0f, 0.0f));
+	a->setScale(100.0f);
+	Quaternion q(Vector3::unitY, -Maths::piOver2);
+	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 4.0f));
+	a->setRotation(q);
+
+	Sphere* b = new Sphere();
+	b->setPosition(Vector3(200.0f, -75.0f, 0.0f));
+	b->setScale(3.0f);
+
+	// Floor and walls
+
+	// Setup floor
+	const float start = -1250.0f;
+	const float size = 250.0f;
+	for (int i = 0; i < 10; i++)
 	{
-		new Astroid();
+		for (int j = 0; j < 10; j++)
+		{
+			Plane* p = new Plane();
+			p->setPosition(Vector3(start + i * size, start + j * size, -100.0f));
+		}
 	}
+
+	// Left/right walls
+	q = Quaternion(Vector3::unitX, Maths::piOver2);
+	for (int i = 0; i < 10; i++)
+	{
+		Plane* p = new Plane();
+		p->setPosition(Vector3(start + i * size, start - size, 0.0f));
+		p->setRotation(q);
+
+		p = new Plane();
+		p->setPosition(Vector3(start + i * size, -start + size, 0.0f));
+		p->setRotation(q);
+	}
+
+	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::piOver2));
+	// Forward/back walls
+	for (int i = 0; i < 10; i++)
+	{
+		Plane* p = new Plane();
+		p->setPosition(Vector3(start - size, start + i * size, 0.0f));
+		p->setRotation(q);
+
+		p = new Plane();
+		p->setPosition(Vector3(-start + size, start + i * size, 0.0f));
+		p->setRotation(q);
+	}
+
+	// Setup lights
+	renderer.setAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
+	DirectionalLight& dir = renderer.getDirectionalLight();
+	dir.direction = Vector3(0.0f, -0.707f, -0.707f);
+	dir.diffuseColor = Vector3(0.78f, 0.88f, 1.0f);
+	dir.specColor = Vector3(0.8f, 0.8f, 0.8f);
+
+	// Create spheres with audio components playing different sounds
+	Sphere* soundSphere = new Sphere();
+	soundSphere->setPosition(Vector3(500.0f, -75.0f, 0.0f));
+	soundSphere->setScale(1.0f);
+	AudioComponent* ac = new AudioComponent(soundSphere);
+	ac->playEvent("event:/FireLoop");
+
+	// Corsshair
+	Actor* crosshairActor = new Actor();
+	crosshairActor->setScale(2.0f);
+	crosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
+
+	// Start music
+	musicEvent = audioSystem.playEvent("event:/Music");
 }
 
 void Game::processInput()
@@ -54,13 +132,6 @@ void Game::processInput()
 
 	inputSystem.update();
 	const InputState& input = inputSystem.getInputState();
-
-	// Click to teleport ship
-	if (input.mouse.getButtonState(1) == ButtonState::Pressed)
-	{
-		Vector2 mousePosition = input.mouse.getPosition();
-		ship->setPosition(Vector3(mousePosition.x - WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 -  mousePosition.y, 0.0));
-	}
 
 	// Escape: quit game
 	if (input.keyboard.getKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::Released)
@@ -183,24 +254,5 @@ void Game::removeActor(Actor* actor)
 	{
 		std::iter_swap(iter, end(actors) - 1);
 		actors.pop_back();
-	}
-}
-
-vector<Astroid*>& Game::getAstroids()
-{
-	return astroids;
-}
-
-void Game::addAstroid(Astroid* astroid)
-{
-	astroids.emplace_back(astroid);
-}
-
-void Game::removeAstroid(Astroid* astroid)
-{
-	auto iter = std::find(begin(astroids), end(astroids), astroid);
-	if (iter != astroids.end())
-	{
-		astroids.erase(iter);
 	}
 }

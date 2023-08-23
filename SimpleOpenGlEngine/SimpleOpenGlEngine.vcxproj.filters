@@ -126,22 +126,22 @@
     <ClCompile Include="KeyboardState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CircleComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Astroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MouseState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ControllerState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCameraComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,22 +257,22 @@
     <ClInclude Include="KeyboardState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CircleComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Astroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MouseState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ControllerState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCameraComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
