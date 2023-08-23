@@ -126,16 +126,7 @@
     <ClCompile Include="KeyboardState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CircleComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Astroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MouseState.cpp">
@@ -144,7 +135,6 @@
     <ClCompile Include="ControllerState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -160,8 +150,6 @@
     <ClCompile Include="FollowActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-=======
->>>>>>> parent of 6e6185c (FPS Camera)
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -275,16 +263,7 @@
     <ClInclude Include="KeyboardState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CircleComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Astroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MouseState.h">
@@ -293,7 +272,6 @@
     <ClInclude Include="ControllerState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -309,7 +287,5 @@
     <ClInclude Include="FollowActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-=======
->>>>>>> parent of 6e6185c (FPS Camera)
   </ItemGroup>
 </Project>
