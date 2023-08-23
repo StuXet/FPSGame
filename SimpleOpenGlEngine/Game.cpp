@@ -9,7 +9,6 @@
 #include "AudioComponent.h"
 #include "FPSActor.h"
 #include "FollowActor.h"
-#include "OrbitActor.h"
 
 bool Game::initialize()
 {
@@ -47,7 +46,6 @@ void Game::load()
 
 	fps = new FPSActor();
 	follow = new FollowActor();
-	orbit = new OrbitActor();
 
 	Cube* a = new Cube();
 	a->setPosition(Vector3(200.0f, 105.0f, 0.0f));
@@ -153,10 +151,6 @@ void Game::processInput()
 	{
 		changeCamera(2);
 	}
-	else if (input.keyboard.getKeyState(SDL_SCANCODE_3) == ButtonState::Pressed)
-	{
-		changeCamera(3);
-	}
 
 	// Actor input
 	isUpdatingActors = true;
@@ -218,8 +212,6 @@ void Game::changeCamera(int mode)
 	crosshair->setVisible(false);
 	follow->setState(Actor::ActorState::Paused);
 	follow->setVisible(false);
-	orbit->setState(Actor::ActorState::Paused);
-	orbit->setVisible(false);
 
 	// Enable the camera specified by the mode
 	switch (mode)
@@ -233,10 +225,6 @@ void Game::changeCamera(int mode)
 	case 2:
 		follow->setState(Actor::ActorState::Active);
 		follow->setVisible(true);
-		break;
-	case 3:
-		orbit->setState(Actor::ActorState::Active);
-		orbit->setVisible(true);
 		break;
 	}
 }
