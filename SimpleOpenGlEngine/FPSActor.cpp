@@ -35,7 +35,7 @@ void FPSActor::updateActor(float dt)
 
 	// Play the footstep if we're moving and haven't recently
 	lastFootstep -= dt;
-	if (!Maths::nearZero(moveComponent->getForwardSpeed()) && lastFootstep <= 0.0f)
+	if ((!Maths::nearZero(moveComponent->getForwardSpeed()) || !Maths::nearZero(moveComponent->getStrafeSpeed())) && lastFootstep <= 0.0f)
 	{
 		footstep.setPaused(false);
 		footstep.restart();
