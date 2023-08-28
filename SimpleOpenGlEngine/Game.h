@@ -55,9 +55,6 @@ private:
 	vector<Actor*> actors;
 	vector<Actor*> pendingActors;
 
-	// Game specific
-	void changeCamera(int mode);
-
 	SoundEvent musicEvent;
 	class FPSActor* fps;
 	class SpriteComponent* crosshair;

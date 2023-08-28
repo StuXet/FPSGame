@@ -45,7 +45,6 @@ void Game::load()
 	Assets::loadMesh("Res\\Meshes\\RacingCar.gpmesh", "Mesh_RacingCar");
 
 	fps = new FPSActor();
-	follow = new FollowActor();
 
 	Cube* a = new Cube();
 	a->setPosition(Vector3(200.0f, 105.0f, 0.0f));
@@ -119,8 +118,6 @@ void Game::load()
 
 	// Start music
 	musicEvent = audioSystem.playEvent("event:/Music");
-
-	changeCamera(1);
 }
 
 void Game::processInput()
@@ -141,15 +138,6 @@ void Game::processInput()
 	if (input.keyboard.getKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::Released)
 	{
 		isRunning = false;
-	}
-
-	if (input.keyboard.getKeyState(SDL_SCANCODE_1) == ButtonState::Pressed)
-	{
-		changeCamera(1);
-	}
-	else if (input.keyboard.getKeyState(SDL_SCANCODE_2) == ButtonState::Pressed)
-	{
-		changeCamera(2);
 	}
 
 	// Actor input
@@ -202,31 +190,6 @@ void Game::render()
 	renderer.beginDraw();
 	renderer.draw();
 	renderer.endDraw();
-}
-
-void Game::changeCamera(int mode)
-{
-	// Disable everything
-	fps->setState(Actor::ActorState::Paused);
-	fps->setVisible(false);
-	crosshair->setVisible(false);
-	follow->setState(Actor::ActorState::Paused);
-	follow->setVisible(false);
-
-	// Enable the camera specified by the mode
-	switch (mode)
-	{
-	case 1:
-	default:
-		fps->setState(Actor::ActorState::Active);
-		fps->setVisible(true);
-		crosshair->setVisible(true);
-		break;
-	case 2:
-		follow->setState(Actor::ActorState::Active);
-		follow->setVisible(true);
-		break;
-	}
 }
 
 void Game::loop()
