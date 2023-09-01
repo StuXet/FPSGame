@@ -22,6 +22,7 @@ private:
 	class Actor* FPSModel;
 	SoundEvent footstep;
 	float lastFootstep;
+	float bulletCooldown;
 };
 
 const Vector3 MODEL_OFFSET = Vector3(10.0f, 10.0f, -10.0f);

@@ -5,13 +5,14 @@
 #include "FPSCameraComponent.h"
 #include "MeshComponent.h"
 #include "Assets.h"
+#include "Bullet.h"
 #include "FPSCameraComponent.h"
 #include "MeshComponent.h"
 
-FPSActor::FPSActor() : 
-	Actor(), 
-	moveComponent(nullptr), 
-	audioComponent(nullptr), 
+FPSActor::FPSActor() :
+	Actor(),
+	moveComponent(nullptr),
+	audioComponent(nullptr),
 	meshComponent(nullptr),
 	cameraComponent(nullptr),
 	lastFootstep(0.0f)
@@ -51,6 +52,8 @@ void FPSActor::updateActor(float dt)
 	Quaternion q = getRotation();
 	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
 	FPSModel->setRotation(q);
+
+	bulletCooldown -= dt;
 }
 
 void FPSActor::actorInput(const InputState& inputState)
@@ -97,6 +100,17 @@ void FPSActor::actorInput(const InputState& inputState)
 		pitchSpeed *= maxPitchSpeed;
 	}
 	cameraComponent->setPitchSpeed(pitchSpeed);
+
+	//Bullet
+	if (inputState.mouse.getButtonState(SDL_BUTTON_LEFT) == ButtonState::Pressed)
+	{
+		Bullet* bullet = new Bullet();
+		//Vector3 bulletStartPosition = getPosition() + getForward() * 50.0f;
+		bullet->setPosition(getPosition());
+		bullet->setRotation(getRotation());
+
+		bulletCooldown = 0.2f;
+	}
 }
 
 void FPSActor::setFootstepSurface(float value)
