@@ -141,8 +141,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
-    <ClCompile Include="CircleCollisionComponent.cpp" />
-    <ClCompile Include="CircleComponent.cpp" />
+    <ClCompile Include="SphereCollisionComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ControllerState.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -189,8 +188,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
-    <ClInclude Include="CircleCollisionComponent.h" />
-    <ClInclude Include="CircleComponent.h" />
+    <ClInclude Include="SphereCollisionComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControllerState.h" />
     <ClInclude Include="Cube.h" />
