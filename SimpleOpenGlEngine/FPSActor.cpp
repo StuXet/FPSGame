@@ -105,9 +105,16 @@ void FPSActor::actorInput(const InputState& inputState)
 	if (inputState.mouse.getButtonState(SDL_BUTTON_LEFT) == ButtonState::Pressed)
 	{
 		Bullet* bullet = new Bullet();
-		//Vector3 bulletStartPosition = getPosition() + getForward() * 50.0f;
-		bullet->setPosition(getPosition());
-		bullet->setRotation(getRotation());
+
+		// Set bullet position slightly ahead of the player to avoid collisions
+		bullet->setPosition(getPosition() + getForward() * 50.0f);
+
+		// Combine player's yaw and camera's pitch for bullet's rotation
+		Quaternion playerRot = getRotation();
+		Quaternion cameraRot(getRight(), cameraComponent->getPitch());
+		Quaternion combinedRot = Quaternion::concatenate(playerRot, cameraRot);
+
+		bullet->setRotation(combinedRot);
 
 		bulletCooldown = 0.2f;
 	}
