@@ -257,3 +257,22 @@ void Game::removeActor(Actor* actor)
 		actors.pop_back();
 	}
 }
+
+vector<Cube*>& Game::getCubes()
+{
+	return cubes;
+}
+
+void Game::addCube(Cube* cube)
+{
+	cubes.emplace_back(cube);
+}
+
+void Game::removeCube(Cube* cube)
+{
+	auto iter = std::find(begin(cubes), end(cubes), cube);
+	if (iter != cubes.end())
+	{
+		cubes.erase(iter);
+	}
+}

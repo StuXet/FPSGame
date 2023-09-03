@@ -3,10 +3,11 @@
 #include "Actor.h"
 #include "SpriteComponent.h"
 #include "Window.h"
-#include "Vector2.h"
+#include "Vector3.h"
 #include "RendererOGL.h"
 #include "AudioSystem.h"
 #include "InputSystem.h"
+#include "Cube.h"
 
 using std::vector;
 
@@ -39,6 +40,9 @@ public:
 	RendererOGL& getRenderer() { return renderer; }
 	AudioSystem& getAudioSystem() { return audioSystem; }
 
+	vector<Cube*>& getCubes();
+	void addCube(Cube* cube);
+	void removeCube(Cube* cube);
 
 private:
 	void processInput();
@@ -59,5 +63,6 @@ private:
 	class FPSActor* fps;
 	class SpriteComponent* crosshair;
 	class FollowActor* follow;
-};
 
+	vector<Cube*> cubes;
+};
