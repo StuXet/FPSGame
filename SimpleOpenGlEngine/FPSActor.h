@@ -1,7 +1,6 @@
 #pragma once
 #include "Actor.h"
 #include "SoundEvent.h"
-#include "SphereCollisionComponent.h"
 #include "Vector3.h"
 
 class FPSActor : public Actor

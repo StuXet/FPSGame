@@ -29,8 +29,6 @@ FPSActor::FPSActor() :
 	meshComponent = new MeshComponent(FPSModel);
 	meshComponent->setMesh(Assets::getMesh("Mesh_Rifle"));
 
-	playerCollision = new SphereCollisionComponent(this);
-	playerCollision->setRadius(1.0f);
 }
 
 void FPSActor::updateActor(float dt)

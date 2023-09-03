@@ -9,7 +9,7 @@ Cube::Cube() : Actor(), collision(nullptr)
 	mc->setMesh(Assets::getMesh("Mesh_Cube"));
 
 	collision = new SphereCollisionComponent(this);
-	collision->setRadius(3);
+	collision->setRadius(1);
 
 	getGame().addCube(this);
 }
