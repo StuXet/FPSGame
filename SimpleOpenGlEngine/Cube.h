@@ -1,6 +1,6 @@
 #pragma once
 #include "Actor.h"
-#include "SphereCollisionComponent.h"
+#include "BoxCollisionComponent.h"
 
 class Cube : public Actor
 {
@@ -8,8 +8,8 @@ public:
 	Cube();
 	~Cube();
 
-	SphereCollisionComponent& getCollision() { return *collision; }
+	BoxCollisionComponent& getCollision() { return *collision; }
 
 private:
-	SphereCollisionComponent* collision;
+	BoxCollisionComponent* collision;
 };

@@ -7,8 +7,8 @@ Bullet::Bullet() : Sphere(), deathTimer(1.0f) // Initialize Sphere's constructor
 {
     moveComponent = new MoveComponent(this);
     moveComponent->setForwardSpeed(800.0f); // Bullet speed
-    collision = new SphereCollisionComponent(this);
-    collision->setRadius(1);
+    collision = new BoxCollisionComponent(this);
+    collision->setDimensions(Vector3(15, 15, 15));
 }
 
 void Bullet::updateActor(float dt)

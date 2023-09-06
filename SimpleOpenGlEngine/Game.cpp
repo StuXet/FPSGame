@@ -276,3 +276,22 @@ void Game::removeCube(Cube* cube)
 		cubes.erase(iter);
 	}
 }
+
+vector<Plane*>& Game::getPlanes()
+{
+	return planes;
+}
+
+void Game::addPlane(Plane* plane)
+{
+	planes.emplace_back(plane);
+}
+
+void Game::removePlane(Plane* plane)
+{
+	auto iter = std::find(begin(planes), end(planes), plane);
+	if (iter != planes.end())
+	{
+		planes.erase(iter);
+	}
+}

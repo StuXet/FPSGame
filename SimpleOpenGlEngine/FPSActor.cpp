@@ -29,6 +29,8 @@ FPSActor::FPSActor() :
 	meshComponent = new MeshComponent(FPSModel);
 	meshComponent->setMesh(Assets::getMesh("Mesh_Rifle"));
 
+	playerCollision = new BoxCollisionComponent(this);
+	playerCollision->setDimensions(Vector3(10.0f, 10.0f, 10.0f));
 }
 
 void FPSActor::updateActor(float dt)
@@ -55,6 +57,20 @@ void FPSActor::updateActor(float dt)
 	FPSModel->setRotation(q);
 
 	bulletCooldown -= dt;
+
+	for (Cube* cube : getGame().getCubes())
+	{
+		if (Intersect(*playerCollision, (cube->getCollision())))
+		{
+			// Calculate the direction from the cube to the player
+			Vector3 direction = getPosition() - cube->getPosition();
+			direction.normalize();
+
+			// Push the player out based on the cube's scale
+			setPosition(getPosition() + direction * (cube->getScale() * 0.5f));
+			
+		}
+	}
 }
 
 void FPSActor::actorInput(const InputState& inputState)

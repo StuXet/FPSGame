@@ -8,6 +8,7 @@
 #include "AudioSystem.h"
 #include "InputSystem.h"
 #include "Cube.h"
+#include "Plane.h"
 
 using std::vector;
 
@@ -44,6 +45,11 @@ public:
 	void addCube(Cube* cube);
 	void removeCube(Cube* cube);
 
+	vector<Plane*>& getPlanes();
+	void addPlane(Plane* plane);
+	void removePlane(Plane* plane);
+
+
 private:
 	void processInput();
 	void update(float dt);
@@ -65,4 +71,6 @@ private:
 	class FollowActor* follow;
 
 	vector<Cube*> cubes;
+	vector<Plane*> planes;
+
 };

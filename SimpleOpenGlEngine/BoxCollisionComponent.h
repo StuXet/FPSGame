@@ -1,7 +1,6 @@
 #pragma once
 #include "Component.h"
 #include "Vector3.h"
-class SphereCollisionComponent;
 
 class BoxCollisionComponent : public Component
 {

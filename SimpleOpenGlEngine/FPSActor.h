@@ -1,5 +1,7 @@
 #pragma once
 #include "Actor.h"
+#include "BoxCollisionComponent.h"
+#include "Plane.h"
 #include "SoundEvent.h"
 #include "Vector3.h"
 
@@ -23,6 +25,8 @@ private:
 	SoundEvent footstep;
 	float lastFootstep;
 	float bulletCooldown;
+
+	BoxCollisionComponent* playerCollision;
 };
 
 const Vector3 MODEL_OFFSET = Vector3(10.0f, 10.0f, -10.0f);

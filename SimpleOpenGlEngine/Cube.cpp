@@ -8,8 +8,8 @@ Cube::Cube() : Actor(), collision(nullptr)
 	MeshComponent* mc = new MeshComponent(this);
 	mc->setMesh(Assets::getMesh("Mesh_Cube"));
 
-	collision = new SphereCollisionComponent(this);
-	collision->setRadius(1);
+	collision = new BoxCollisionComponent(this);
+	collision->setDimensions(Vector3(100,100,100));
 
 	getGame().addCube(this);
 }
