@@ -57,6 +57,11 @@ void Game::load()
 	b->setPosition(Vector3(200.0f, -75.0f, 0.0f));
 	b->setScale(3.0f);
 
+	//Cube* cc = new Cube();
+	//cc->setPosition(Vector3(1800, 400, 0));
+	//cc->setScale(800);
+	//cc->collision->setDimensions(Vector3(800, 800, 800));
+
 	// Floor and walls
 
 	// Setup floor

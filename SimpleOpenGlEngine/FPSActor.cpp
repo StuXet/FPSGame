@@ -71,6 +71,16 @@ void FPSActor::updateActor(float dt)
 			
 		}
 	}
+
+	for (Plane* plane : getGame().getPlanes())
+	{
+		if (Intersect(*playerCollision, plane->getCollision()))
+		{
+			Vector3 direction = getPosition() - plane->getPosition();
+
+			setPosition(getPosition() + direction * (plane->getScale() * .5f));
+		}
+	}
 }
 
 void FPSActor::actorInput(const InputState& inputState)
