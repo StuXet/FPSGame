@@ -15,6 +15,6 @@ public:
 private:
 	BoxCollisionComponent* collision;
 	Vector3 targetPosition;
-	float moveSpeed = 100.0f;
+	float moveSpeed = 200.0f;
 	void generateRandomTarget();
 };

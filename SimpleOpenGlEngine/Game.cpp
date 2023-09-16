@@ -50,7 +50,13 @@ void Game::load()
 	a->setPosition(Vector3(200.0f, 105.0f, 0.0f));
 	a->setScale(100.0f);
 	Quaternion q(Vector3::unitY, -Maths::piOver2);
-	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 4.0f));
+	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 2.0f));
+	a->setRotation(q);
+
+	a = new Cube();
+	a->setPosition(Vector3(300.0f, 205.0f, 0.0f));
+	a->setScale(100.0f);
+	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 2.0f));
 	a->setRotation(q);
 
 	//Forward wall collisiom
