@@ -142,6 +142,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CollisionWall.cpp" />
     <ClCompile Include="SphereCollisionComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ControllerState.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CollisionWall.h" />
     <ClInclude Include="SphereCollisionComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControllerState.h" />

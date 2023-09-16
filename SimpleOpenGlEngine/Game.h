@@ -9,6 +9,7 @@
 #include "InputSystem.h"
 #include "Cube.h"
 #include "Plane.h"
+#include "CollisionWall.h"
 
 using std::vector;
 
@@ -49,6 +50,9 @@ public:
 	void addPlane(Plane* plane);
 	void removePlane(Plane* plane);
 
+	vector<CollisionWall*>& getCollWall();
+	void addCollWall(CollisionWall* collisionWall);
+	void removeCollWall(CollisionWall* collisionWall);
 
 private:
 	void processInput();
@@ -72,5 +76,6 @@ private:
 
 	vector<Cube*> cubes;
 	vector<Plane*> planes;
+	vector<CollisionWall*> collWalls;
 
 };

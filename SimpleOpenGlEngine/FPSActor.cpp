@@ -8,6 +8,7 @@
 #include "Bullet.h"
 #include "FPSCameraComponent.h"
 #include "MeshComponent.h"
+#include "CollisionWall.h"
 
 FPSActor::FPSActor() :
 	Actor(),
@@ -72,13 +73,13 @@ void FPSActor::updateActor(float dt)
 		}
 	}
 
-	for (Plane* plane : getGame().getPlanes())
+	for (CollisionWall* collisionWall : getGame().getCollWall())
 	{
-		if (Intersect(*playerCollision, plane->getCollision()))
+		if (Intersect(*playerCollision, collisionWall->getCollision()))
 		{
-			Vector3 direction = getPosition() - plane->getPosition();
+			Vector3 direction = getPosition() - collisionWall->getPosition();
 
-			setPosition(getPosition() + direction * (plane->getScale() * .5f));
+			setPosition(getPosition() + direction * (collisionWall->getScale() * .1f));
 		}
 	}
 }

@@ -9,9 +9,6 @@ Plane::Plane() : Actor()
 	MeshComponent* mc = new MeshComponent(this);
 	mc->setMesh(Assets::getMesh("Mesh_Plane"));
 
-	collision = new BoxCollisionComponent(this);
-	collision->setDimensions(Vector3(20, 20, 20));
-
 	getGame().addPlane(this);
 }
 

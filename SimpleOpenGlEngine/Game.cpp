@@ -53,14 +53,26 @@ void Game::load()
 	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 4.0f));
 	a->setRotation(q);
 
-	Sphere* b = new Sphere();
-	b->setPosition(Vector3(200.0f, -75.0f, 0.0f));
-	b->setScale(3.0f);
+	//Forward wall collisiom
+	CollisionWall* collWall = new CollisionWall();
+	collWall->setPosition(Vector3(1500.0f, 100.0f, 0.0f));
+	collWall->getCollision().setDimensions(Vector3(100.0f, 3000.0f, 100.0f));
+	//Back collision wall
+	collWall = new CollisionWall();
+	collWall->setPosition(Vector3(-1500.0f, 100.0f, 0.0f));
+	collWall->getCollision().setDimensions(Vector3(100.0f, 3000.0f, 100.0f));
+	//Left collision wall
+	collWall = new CollisionWall();
+	collWall->setPosition(Vector3(100.0f, -1500.0f, 0.0f));
+	collWall->getCollision().setDimensions(Vector3(3000.0f, 100.0f, 100.0f));
+	//Righ collision wall
+	collWall = new CollisionWall();
+	collWall->setPosition(Vector3(100.0f, 1500.0f, 0.0f));
+	collWall->getCollision().setDimensions(Vector3(3000.0f, 100.0f, 100.0f));
 
-	//Cube* cc = new Cube();
-	//cc->setPosition(Vector3(1800, 400, 0));
-	//cc->setScale(800);
-	//cc->collision->setDimensions(Vector3(800, 800, 800));
+	//Sphere* b = new Sphere();
+	//b->setPosition(Vector3(200.0f, -75.0f, 0.0f));
+	//b->setScale(3.0f);
 
 	// Floor and walls
 
@@ -110,9 +122,9 @@ void Game::load()
 	dir.specColor = Vector3(0.8f, 0.8f, 0.8f);
 
 	// Create spheres with audio components playing different sounds
-	Sphere* soundSphere = new Sphere();
-	soundSphere->setPosition(Vector3(500.0f, -75.0f, 0.0f));
-	soundSphere->setScale(1.0f);
+	//Sphere* soundSphere = new Sphere();
+	//soundSphere->setPosition(Vector3(500.0f, -75.0f, 0.0f));
+	//soundSphere->setScale(1.0f);
 	//AudioComponent* ac = new AudioComponent(soundSphere);
 	//ac->playEvent("event:/FireLoop");
 
@@ -298,5 +310,24 @@ void Game::removePlane(Plane* plane)
 	if (iter != planes.end())
 	{
 		planes.erase(iter);
+	}
+}
+
+vector<CollisionWall*>& Game::getCollWall()
+{
+	return collWalls;
+}
+
+void Game::addCollWall(CollisionWall* collWall)
+{
+	collWalls.emplace_back(collWall);
+}
+
+void Game::removeCollWall(CollisionWall* collWall)
+{
+	auto iter = std::find(begin(collWalls), end(collWalls), collWall);
+	if (iter != collWalls.end())
+	{
+		collWalls.erase(iter);
 	}
 }
